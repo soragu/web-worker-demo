@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h3>Worker demo</h3>
+    <button id="btn-worker-start">strat</button>
+    <button id="btn-worker-stop">stop</button>
+    <p>result:
+        <output id="result"></output>
+    </p>
+    <script type="text/javascript">
+    var w = null;
+
+    function startWorker() {
+        if (typeof(Worker) == "undefined") {
+            document.getElementById("result").innerHTML = "Sorry your bowser not support worker...";
+        } else {
+            if (w === null) {
+                w = new Worker("worker.js");
+            }
+            w.onmessage = function(event) {
+                document.getElementById("result").innerHTML = event.data;
+            };
+
+        }
+    }
+
+    function stopWorker() {
+        w.terminate();
+    }
+
+    document.getElementById("btn-worker-start").onclick = function() {
+        startWorker();
+    };
+    
+    document.getElementById("btn-worker-stop").onclick = function() {
+        stopWorker();
+    };
+    </script>
+</body>
+
+</html>
